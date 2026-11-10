@@ -1,4 +1,4 @@
-from extractor import enviarMsg
+from extractor import processarExtracao
 
 def iniciarLLM():
     print("--- Assistente de Extração Financeiro (P0) ---")
@@ -22,7 +22,7 @@ def iniciarLLM():
         # Saida
         try:
             print("Pensando...")
-            resposta = enviarMsg(textoUsuario)
+            resposta = processarExtracao(textoUsuario)
             print(f"IA: {resposta}\n")
         except Exception as error:
             print(f"Erro ao comunicar com a IA: {error} \n")

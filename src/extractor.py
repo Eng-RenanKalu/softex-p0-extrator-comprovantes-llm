@@ -7,15 +7,28 @@ cliente = OpenAI(
     api_key=LLM_API_KEY
 )
 
-def enviarMsg(texto):
-    # Estrutura da mensagem enviada para a API
-    mensagens = [
-        {"role": "system", "content": "Você é um assistente útil e direto."},
-        {"role": "user", "content": texto}
+# Prepara a solicitação de mensagem
+def solicitacaoDeMensagem(textoUsuario):
+    return [
+        {"role": "system", "content": "Você é um assistente util e direto"},
+        {"role": "user", "content": textoUsuario}
     ]
 
-    # Envia a requisição
-    resposta = cliente.chat.completions.create(model = LLM_MODEL, messages = mensagens, temperature = 0.0)
+# Faz a chamada ao modelo
+def chamarModelo(mensagens):
+    return cliente.chat.completions.create(
+        model=LLM_MODEL,
+        messages=mensagens,
+        temperature=0.0,
+    )
 
-    # Extrai a resposta da IA
-    return resposta.choices[0].message.content
+# Tratar o JSON retornado pelo modelo
+def tratarResposta(respostaBruta):
+    return respostaBruta.choices[0].message.content
+
+# Chamar as funções e passar para o main.py
+def processarExtracao(textoUsuario):
+    mensagens = solicitacaoDeMensagem(textoUsuario)
+    respostaBruta = chamarModelo(mensagens)
+    textoFinal = tratarResposta(respostaBruta)
+    return textoFinal
