@@ -23,7 +23,7 @@ def iniciarLLM():
         try:
             print("Pensando...")
             resposta = processarExtracao(textoUsuario)
-            print(f"IA: {resposta}\n")
+            print(f"IA: \n{resposta}\n")
         except Exception as error:
             print(f"Erro ao comunicar com a IA: {error} \n")
 

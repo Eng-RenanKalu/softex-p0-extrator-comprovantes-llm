@@ -1,5 +1,5 @@
 from openai import OpenAI, APIConnectionError, APITimeoutError, APIError, AuthenticationError
-from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
+from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL, LLM_TEMPERATURE, SYSTEM_PROMPT
 
 # Inicializa o servidor local usando o cliente da OpenIA
 cliente = OpenAI(
@@ -11,7 +11,7 @@ cliente = OpenAI(
 # Prepara a solicitação de mensagem
 def solicitacaoDeMensagem(textoUsuario):
     return [
-        {"role": "system", "content": "Você é um assistente util e direto"},
+        {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": textoUsuario}
     ]
 
@@ -26,7 +26,7 @@ def chamarModelo(mensagens):
     return cliente.chat.completions.create(
         model=LLM_MODEL,
         messages=mensagens,
-        temperature=0.0,
+        temperature=LLM_TEMPERATURE,
     )
 
 # Tratar o JSON retornado pelo modelo

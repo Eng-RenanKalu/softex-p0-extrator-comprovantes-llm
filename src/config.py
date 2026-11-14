@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 # Carrega as variáveis de ambiente na memoria do sistema
 load_dotenv(override=True)
 
+# Se não existir temperatura, usa 0.0 como padrão.
+LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.0"))
+
 # Configuração das variáveis de ambiente
 LLM_BASE_URL = os.getenv("LLM_BASE_URL")
 LLM_API_KEY = os.getenv("LLM_API_KEY")
@@ -28,3 +31,11 @@ if erros:
         print(f"{error}")
     print("\nPor favor, verifique se o arquivo .env exsite e está preenchido corretamente")
     sys.exit(1)
+
+# Leitura fail-fast do comportamento da IA
+try:
+    caminho = os.path.join(os.path.dirname(__file__), "prompt.txt")
+    with open(caminho, "r", encoding="utf-8") as arquivo:
+        SYSTEM_PROMPT = arquivo.read().strip()
+except FileNotFoundError:
+    raise FileNotFoundError("Erro: O arquivo 'prompt.txt' com as instruções da IA não foi encontrado.")

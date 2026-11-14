@@ -69,7 +69,3 @@ Para cumprir as exigências de tratamento de falhas, a aplicação lida com cen�
 
 * **Testes Reais (Indisponibilidade do LLM):** Se o serviço local do Ollama for encerrado ou demorar mais de 15 segundos para responder, o programa captura as falhas técnicas da biblioteca OpenAI (`APIConnectionError` e `APITimeoutError`) e exibe uma mensagem amigável ao usuário sem quebrar a aplicação, permitindo nova tentativa.
 * **Testes Simulados (Falha de Autenticação):** Serviços locais como o Ollama funcionam com "porta aberta" e ignoram credenciais inválidas. Para demonstrar o tratamento de falha de credencial ausente/inválida, implementamos um simulador no código: se a `LLM_API_KEY` for diferente de `ollama`, o sistema bloqueia a requisição antes de enviá-la e gera um `PermissionError`. A aplicação também está preparada com `AuthenticationError` oficial, facilitando uma futura migração para APIs pagas.
-
-## 📝 Notas de Desenvolvimento (Curiosidade sobre o Modelo)
-
-Durante a fase de testes do nível básico (05/11/26), foi identificado que, mesmo rodando 100% offline, o modelo `qwen2.5:3b` ocasionalmente afirmava ser o "Claude, modelo de linguagem da Anthropic". Trata-se de uma alucinação/crise de identidade derivada dos dados de treinamento do modelo aberto, que provavelmente utilizou milhões de interações sintéticas geradas por modelos gigantes (como o Claude) para aprender a conversar com naturalidade.
