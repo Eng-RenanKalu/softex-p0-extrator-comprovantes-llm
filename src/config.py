@@ -3,7 +3,7 @@ import sys
 from dotenv import load_dotenv
 
 # Carrega as variáveis de ambiente na memoria do sistema
-load_dotenv()
+load_dotenv(override=True)
 
 # Configuração das variáveis de ambiente
 LLM_BASE_URL = os.getenv("LLM_BASE_URL")

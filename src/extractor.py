@@ -1,4 +1,4 @@
-from openai import OpenAI, APIConnectionError, APITimeoutError, APIError
+from openai import OpenAI, APIConnectionError, APITimeoutError, APIError, AuthenticationError
 from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 
 # Inicializa o servidor local usando o cliente da OpenIA
@@ -15,8 +15,14 @@ def solicitacaoDeMensagem(textoUsuario):
         {"role": "user", "content": textoUsuario}
     ]
 
+# Simulação de autenticação
+def verificarAutenticacao():
+    if LLM_API_KEY != "ollama":
+        raise PermissionError("Credenciais inválidas. Acesso negado.")
+
 # Faz a chamada ao modelo
 def chamarModelo(mensagens):
+    verificarAutenticacao()
     return cliente.chat.completions.create(
         model=LLM_MODEL,
         messages=mensagens,
@@ -38,6 +44,10 @@ def processarExtracao(textoUsuario):
         return textoFinal
 
     # Exibindo os possiveis erros ao usuário
+    except PermissionError as erro:
+        return f"[ERRO DE AUTENTICAÇÃO] {str(erro)} Verifique a sua LLM_API_KEY."
+    except AuthenticationError:
+        return "[ERRO DE AUTENTICAÇÃO] A chave da API foi rejeitada pelo provedor."
     except APIConnectionError:
         return "[ERRO] Não foi possível conectar ao LLM. Verifique se o Ollama está em localhost:11434."
     except APITimeoutError:
