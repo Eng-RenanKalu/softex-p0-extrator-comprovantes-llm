@@ -221,3 +221,6 @@ __marimo__/
 
 # Anotações pessoais
 Anotações.txt
+
+# Loggs do programa
+*.log
