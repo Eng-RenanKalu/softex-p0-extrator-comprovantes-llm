@@ -40,7 +40,7 @@ def chamarModelo(mensagens):
         temperature=LLM_TEMPERATURE,
     )
 
-    logging.inf("Resposta da LLM recebida com sucesso")
+    logging.info("Resposta da LLM recebida com sucesso")
 
     return resposta
 
