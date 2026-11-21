@@ -18,19 +18,31 @@ cliente = OpenAI(
 )
 
 # Prepara a solicitação de mensagem
-def solicitacaoDeMensagem(textoUsuario):
+def solicitacaoDeMensagem(textoUsuario: str) -> list:
+    """
+    Constrói a lista de mensagens no formato exigido pela API da OpenAI/Ollama,
+    injetando o prompt de sistema e o texto do usuário.
+    """
     return [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": textoUsuario}
     ]
 
 # Simulação de autenticação
-def verificarAutenticacao():
+def verificarAutenticacao() -> None:
+    """
+    Verifica se a chave da API mockada confere.
+    Levanta PermissionError caso a credencial seja inválida.
+    """
     if LLM_API_KEY != "ollama":
         raise PermissionError("Credenciais inválidas. Acesso negado.")
 
 # Faz a chamada ao modelo
-def chamarModelo(mensagens):
+def chamarModelo(mensagens: list) -> object:
+    """
+    Envia as mensagens preparadas para o LLM configurado.
+    Retorna o objeto de resposta bruta da API.
+    """
     logging.info(f"Iniciando chamada ao modelo LLM ({LLM_MODEL})...")
 
     verificarAutenticacao()
@@ -45,13 +57,21 @@ def chamarModelo(mensagens):
     return resposta
 
 # Tratar o JSON retornado pelo modelo
-def tratarResposta(respostaBruta):
+def tratarResposta(respostaBruta: object) -> str:
+    """
+    Extrai e retorna apenas o conteúdo em texto da resposta da API.
+    Levanta ValueError se a resposta vier vazia ou malformada.
+    """
     if not respostaBruta.choices or not respostaBruta.choices[0].message.content:
         raise ValueError("A resposta do modelo veio vazia.")
     return respostaBruta.choices[0].message.content
 
 # Chamar as funções e passar para o main.py
-def processarExtracao(textoUsuario):
+def processarExtracao(textoUsuario: str) -> str:
+    """
+    Orquestra o fluxo de extração: valida entrada, chama o modelo e trata erros.
+    Retorna o JSON extraído ou uma mensagem de erro amigável ao usuário.
+    """
     logging.info("Iniciando nova requisição de extração (tamanho do texto: %d caracteres)", len(textoUsuario))
     
     if not textoUsuario.strip():
