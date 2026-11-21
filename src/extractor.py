@@ -1,4 +1,4 @@
-from openai import OpenAI, APIConnectionError, APITimeoutError, APIError, AuthenticationError
+from openai import OpenAI, APIConnectionError, APITimeoutError, AuthenticationError
 from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL, LLM_TEMPERATURE, SYSTEM_PROMPT
 import logging
 
@@ -31,7 +31,7 @@ def verificarAutenticacao():
 
 # Faz a chamada ao modelo
 def chamarModelo(mensagens):
-    logging.info(f"Iniciando chamada ao modelo LLM ({LLM_MODEL})...");
+    logging.info(f"Iniciando chamada ao modelo LLM ({LLM_MODEL})...")
 
     verificarAutenticacao()
     resposta = cliente.chat.completions.create(
@@ -43,8 +43,6 @@ def chamarModelo(mensagens):
     logging.info("Resposta da LLM recebida com sucesso")
 
     return resposta
-
-
 
 # Tratar o JSON retornado pelo modelo
 def tratarResposta(respostaBruta):

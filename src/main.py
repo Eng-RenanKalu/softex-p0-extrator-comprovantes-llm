@@ -27,6 +27,5 @@ def iniciarLLM():
         except Exception as error:
             print(f"Erro ao comunicar com a IA: {error} \n")
 
-
 if __name__ == "__main__":
     iniciarLLM()
