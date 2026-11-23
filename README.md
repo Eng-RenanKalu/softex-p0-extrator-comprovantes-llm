@@ -29,20 +29,26 @@ Um comprovante Pix tem um formato completamente diferente de um extrato de banco
 
 ## ⚙️ Instalação e Configuração
 
-1. **Pré-requisitos:** Python 3.8+ e [Ollama](https://ollama.com/) instalados no seu computador.
+1. **Pré-requisitos:** [Python 3.8+](https://www.python.org/downloads/) e [Ollama](https://ollama.com/) instalados no seu computador.
 2. **Baixe o modelo da IA:** No terminal, execute:
+
 ```bash
 ollama run qwen2.5:3b
 ```
+
 3. **Clone o repositório e acesse a pasta:**
+
 ```bash
-git clone <URL_DO_SEU_REPOSITORIO>
-cd <NOME_DA_PASTA>
+git clone https://github.com/Eng-RenanKalu/softex-p0-extrator-comprovantes-llm
+cd softex-p0-extrator-comprovantes-llm
 ```
+
 4. **Instale as dependências:**
+
 ```bash
 pip install openai python-dotenv
 ```
+
 5. **Configuração de Acesso (.env):**
 Copie o arquivo `.env.example` e renomeie-o para `.env`.
 **Atenção:** Preencha a variável `LLM_API_KEY` exatamente com a palavra `ollama`. Essa configuração é obrigatória para a validação de segurança da aplicação.
@@ -50,6 +56,7 @@ Copie o arquivo `.env.example` e renomeie-o para `.env`.
 ## 🚀 Como Executar
 
 Com o Ollama rodando em segundo plano, inicie o programa acessando a pasta `src`:
+
 ```bash
 python src/main.py
 ```
@@ -57,9 +64,11 @@ python src/main.py
 ## 📊 Exemplo de Entrada e Saída
 
 **Entrada do Usuário (Texto Bruto colado no terminal):**
+
 > Transferência realizada com sucesso. Data: 12/10/2026. Recebedor: Mercado do Zé. Valor: R$ 45,90. Categoria não informada.
 
 **Saída da Aplicação:**
+
 > Estabelecimento: Mercado do Zé
 > Valor: R$ 45,90
 > Data: 12/10/2026
@@ -68,6 +77,7 @@ python src/main.py
 ## 🛡️ Tratamento de Erros e Resiliência
 
 A aplicação lida com cenários de falha de duas formas distintas:
+
 * **Falhas de Rede (Indisponibilidade do LLM):** Se o Ollama for encerrado ou demorar muito para responder, a aplicação captura exceções da OpenAI (`APIConnectionError` e `APITimeoutError`) e exibe uma mensagem amigável sem quebrar o fluxo.
 * **Falhas de Autenticação (Mock Local):** Como o Ollama possui "porta aberta", criamos um simulador local: se a `LLM_API_KEY` for diferente de `ollama`, o sistema aborta a requisição via `PermissionError`. A aplicação também trata `AuthenticationError`, facilitando a migração futura para provedores pagos em nuvem.
 
@@ -76,6 +86,7 @@ A aplicação lida com cenários de falha de duas formas distintas:
 O projeto conta com uma suíte de testes locais utilizando `unittest` e `unittest.mock.patch`. A estratégia permite validar a lógica do código em frações de segundo, sem consumir recursos de rede ou tokens da IA, garantindo isolamento total.
 
 Para rodar os testes:
+
 ```bash
 python src/test_extractor.py
 ```
